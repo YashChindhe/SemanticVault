@@ -7,7 +7,7 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 
   try {
     const response = await fetch(
-      "https://router.huggingface.co/hf-inference/models/sentence-transformers/all-MiniLM-L6-v2?task=feature-extraction",
+      "https://router.huggingface.co/hf-inference/models/BAAI/bge-small-en-v1.5",
       {
         headers: { 
           Authorization: `Bearer ${token}`,
@@ -25,7 +25,8 @@ export async function generateEmbedding(text: string): Promise<number[]> {
     }
     
     let result = await response.json();
-    // If we wrapped it in an array, it returns a 2D array [[v1, v2...]]
+    
+    // If it's a list (some models return [[...]]), flatten it
     if (Array.isArray(result) && Array.isArray(result[0])) {
       result = result[0];
     }
